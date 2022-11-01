@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     {
         this.shootDir = shootDir;
         //transform.eulerAngles = new Vector3(rotation.x, rotation.y, 90);
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 1f);
     }
 
 
@@ -26,5 +26,20 @@ public class Bullet : MonoBehaviour
     void Update()
     {
         transform.position += shootDir * moveSpeed * Time.deltaTime;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        print(other.tag);
+        if (other.CompareTag("Shooter"))
+        {
+            other.GetComponent<EnemieHealth>().damageEnemie(3);
+            Destroy(gameObject);
+        }
+        else if (other.CompareTag("Runner"))
+        {
+            other.GetComponent<EnemieHealth>().damageEnemie(5);
+            Destroy(gameObject);
+        }
     }
 }

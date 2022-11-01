@@ -6,6 +6,7 @@ public class EnemySpawner : MonoBehaviour
 {
     private bool spawnAble = true;
     [SerializeField] Transform enemie;
+    [SerializeField] float coolDownTime;
     
     [SerializeField] Transform targetPosition;
     private Vector3 currentPosition;
@@ -18,9 +19,9 @@ public class EnemySpawner : MonoBehaviour
     }
     private IEnumerator coolDownSpawn()
     {
-        print("spawning paused");
-        yield return new WaitForSeconds(5f);
-        print("Is spawnable again");
+        
+        yield return new WaitForSeconds(coolDownTime);
+        
         spawnAble = true;
     }
 
@@ -29,11 +30,11 @@ public class EnemySpawner : MonoBehaviour
         currentPosition = new Vector3(targetPosition.position.x, targetPosition.position.y, targetPosition.position.z);
         if (spawnAble)
         {
-            print("Attempting spawn");
+            
             int decree = Random.Range(0, 2);
             if (decree == 1)
             {
-                print("Spawning");
+                
                 int enemies = Random.Range(1, 3);
                 SpawnEnemy(enemies);
                 spawnAble = false;
@@ -47,8 +48,8 @@ public class EnemySpawner : MonoBehaviour
         int[] positions = new int[enemies];
        if(enemies > 1)
         {
-            int position1 = Random.Range(1, 3);
-            int position2 = Random.Range(1, 3);
+            int position1 = Random.Range(1, 4);
+            int position2 = Random.Range(1, 4);
             positions[0] = position1;
             positions[1] = position2;
             
@@ -62,6 +63,7 @@ public class EnemySpawner : MonoBehaviour
                 else if (positions[i] == 2)
                 {
                     Vector3 intPosition = new Vector3(currentPosition.x, currentPosition.y, 3);
+                    print(intPosition.z);
                     Transform unit = Instantiate(enemie, intPosition, rotation);
                 }
                 else if (positions[i] == 3)
@@ -77,7 +79,7 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
-            int position1 = Random.Range(1, 3);
+            int position1 = Random.Range(1, 4);
             if (position1 == 1)
             {
                 Vector3 intPosition = new Vector3(currentPosition.x, currentPosition.y, currentPosition.z);
